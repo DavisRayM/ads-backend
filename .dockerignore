@@ -1,0 +1,10 @@
+# ignore everthing
+**
+# allow following
+!ads
+!pyproject.toml
+!LICENSE
+!scripts
+!base.pip
+!dev.pip
+!README.md
