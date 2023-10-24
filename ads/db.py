@@ -1,6 +1,7 @@
 """
 Module contains MongoDB helper functions
 """
+from typing import Any, Dict
 from flask import current_app, g
 from flask_pymongo import PyMongo
 
@@ -15,3 +16,7 @@ def get_db():
         conn = g._db = PyMongo(current_app, serverSelectionTimeoutMS=10000).db
 
     return conn
+
+
+def get_user(username: str) -> Dict[str, Any]:
+    return get_db().users.find_one({"username": username})

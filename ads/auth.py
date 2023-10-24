@@ -13,7 +13,7 @@ from flask import (
 )
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from ads.db import get_db
+from ads.db import get_db, get_user
 
 bp = Blueprint("auth", __name__, url_prefix="/auth")
 
@@ -42,7 +42,7 @@ def load_user_from_session():
     if user_id is None:
         g._user = None
     else:
-        result = get_db().users.find_one({"username": user_id})
+        result = get_user(user_id)
         if result:
             g._user = result
 
@@ -59,11 +59,9 @@ def register():
         elif not password:
             errors = "Password is required"
 
-        user = get_db().users.find_one({"username": username})
-
         if errors:
             flash(errors)
-        elif user:
+        elif get_user(username):
             flash("user already exists")
         else:
             password = generate_password_hash(password)
@@ -87,7 +85,7 @@ def login():
         elif not password:
             errors = "Password is required"
 
-        user = get_db().users.find_one({"username": username})
+        user = get_user(username)
 
         if errors:
             flash(errors)
