@@ -21,7 +21,17 @@ class AuthActions(object):
 
 @pytest.fixture
 def app():
-    app = create_app({"TESTING": True, "MONGO_URI": "mongodb://127.0.0.1/test"})
+    app = create_app(
+        {
+            "TESTING": True,
+            "MONGO_URI": "mongodb://mongo/test",
+            "CELERY": {
+                "broker_url": "redis://redis",
+                "result_backend": "redis://redis",
+                "task_ignore_result": False,
+            },
+        }
+    )
 
     yield app
 

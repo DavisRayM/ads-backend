@@ -13,7 +13,7 @@ dependencies = [
     "flask",
     "pymongo[srv]",
     "Flask-PyMongo",
-    "celery",
+    "celery[redis]",
 ]
 
 [project.urls]
@@ -27,7 +27,8 @@ test = [
 dev = [
     "pip-tools",
     "black",
-    "flake8"
+    "flake8",
+    "ipdb"
 ]
 
 [tool.flit.module]

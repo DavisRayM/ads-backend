@@ -1,6 +1,6 @@
 import functools
-
 from collections.abc import Callable
+
 from flask import (
     Blueprint,
     flash,
@@ -13,8 +13,7 @@ from flask import (
 )
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from ads import db
-
+from ads.db import get_db
 
 bp = Blueprint("auth", __name__, url_prefix="/auth")
 
@@ -43,7 +42,7 @@ def load_user_from_session():
     if user_id is None:
         g._user = None
     else:
-        result = db.users.find_one({"username": user_id})
+        result = get_db().users.find_one({"username": user_id})
         if result:
             g._user = result
 
@@ -60,7 +59,7 @@ def register():
         elif not password:
             errors = "Password is required"
 
-        user = db.users.find_one({"username": username})
+        user = get_db().users.find_one({"username": username})
 
         if errors:
             flash(errors)
@@ -69,7 +68,7 @@ def register():
         else:
             password = generate_password_hash(password)
             user_doc = {"username": username, "password_hash": password}
-            db.users.insert_one(user_doc)
+            get_db().users.insert_one(user_doc)
 
             return redirect(url_for("auth.login"))
 
@@ -88,7 +87,7 @@ def login():
         elif not password:
             errors = "Password is required"
 
-        user = db.users.find_one({"username": username})
+        user = get_db().users.find_one({"username": username})
 
         if errors:
             flash(errors)

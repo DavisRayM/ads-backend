@@ -3,7 +3,6 @@ Module contains MongoDB helper functions
 """
 from flask import current_app, g
 from flask_pymongo import PyMongo
-from werkzeug.local import LocalProxy
 
 
 def get_db():
@@ -16,6 +15,3 @@ def get_db():
         conn = g._db = PyMongo(current_app, serverSelectionTimeoutMS=10000).db
 
     return conn
-
-
-db = LocalProxy(get_db)

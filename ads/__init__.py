@@ -4,13 +4,29 @@ Backend server implementation for the Automated Diagnosis System
 __version__ = "0.0.1"
 
 import os
+from typing import Any, Mapping, Optional
+
+from celery.app import Celery
+from celery.app.task import Task
 from flask import Flask, abort
 
-
-from typing import Any, Optional, Mapping
-
-from ads.db import db
 from ads.auth import bp
+from ads.db import get_db
+
+
+def celery_init(app: Flask) -> Celery:
+    class FlaskTask(Task):
+        def __call__(self, *args: object, **kwargs: object) -> object:
+            with app.app_context():
+                return self.run(*args, **kwargs)
+
+    celery_app = Celery(
+        app.name, task_cls=FlaskTask, broker=app.config["CELERY"].get("broker_url")
+    )
+    celery_app.conf.update(app.config["CELERY"])
+    celery_app.set_default()
+    app.extensions["celery"] = celery_app
+    return celery_app
 
 
 def create_app(test_config: Optional[Mapping[str, Any]] = None):
@@ -18,7 +34,9 @@ def create_app(test_config: Optional[Mapping[str, Any]] = None):
     Flask application factory
     """
     app = Flask(__name__, instance_relative_config=True)
-    app.config.from_mapping(SECRET_KEY="dev")
+    app.config.from_mapping(
+        SECRET_KEY="dev",
+    )
 
     if not test_config:
         app.config.from_pyfile("config.py", silent=True)
@@ -33,7 +51,7 @@ def create_app(test_config: Optional[Mapping[str, Any]] = None):
     @app.route("/healthz")
     def health_check():
         try:
-            resp = db.command("ping")
+            resp = get_db().command("ping")
         except Exception:
             abort(503)
         else:
@@ -42,6 +60,8 @@ def create_app(test_config: Optional[Mapping[str, Any]] = None):
             else:
                 abort(503)
 
+    if app.config.get("CELERY"):
+        celery_init(app)
     # Register blueprints
     app.register_blueprint(bp)
 

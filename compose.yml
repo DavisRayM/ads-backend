@@ -15,22 +15,35 @@ services:
       mongo:
         condition: service_healthy
 
+  worker:
+    build: .
+    volumes:
+      - ".:/src/app"
+    command: celery -A make_celery.celery worker --loglevel INFO
+    depends_on:
+      redis:
+        condition: service_healthy
+
+  redis:
+    image: redis
+    restart: always
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: redis-cli ping
+      interval: 10s
+      timeout: 10s
+      retries: 5
+      start_period: 10s
+
   mongo:
     image: mongo
     restart: always
     ports:
       - "27017:27017"
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=admin
-      - MONGO_INITDB_ROOT_PASSWORD=admin
-      - MONGO_INITDB_DATABASE=ads
-      - DB_USERNAME=dev
-      - DB_PASSWORD=dev
-    volumes:
-      - ./mongo-init.sh:/docker-entrypoint-initdb.d/mongo-init.sh:ro
     healthcheck:
-      test: echo 'db.runCommand("ping").ok' | mongosh mongo:27017/ads --quiet
+      test: echo 'db.runCommand("ping").ok' | mongosh mongo:27017/test --quiet
       interval: 10s
       timeout: 10s
       retries: 5
-      start_period: 40s
+      start_period: 10s

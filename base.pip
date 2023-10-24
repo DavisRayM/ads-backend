@@ -10,7 +10,7 @@ billiard==4.1.0
     # via celery
 blinker==1.6.3
     # via flask
-celery==5.3.4
+celery[redis]==5.3.4
     # via ads (pyproject.toml)
 click==8.1.7
     # via
@@ -50,6 +50,8 @@ pymongo[srv]==4.5.0
     #   ads (pyproject.toml)
     #   flask-pymongo
 python-dateutil==2.8.2
+    # via celery
+redis==4.6.0
     # via celery
 six==1.16.0
     # via python-dateutil

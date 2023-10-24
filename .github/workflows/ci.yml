@@ -40,6 +40,21 @@ jobs:
     runs-on: ubuntu-latest
     env:
       PYTHON_PATH: .
+    services:
+      redis:
+        image: redis
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+      mongo:
+        image: mongo
+        options: >-
+          --health-cmd "echo 'db.runCommand(\"ping\").ok' | mongosh mongo:27017/test --quiet"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     steps:
       - uses: actions/checkout@v3
 
@@ -51,9 +66,6 @@ jobs:
           cache-dependency-path: |
             "base.pip"
             "dev.pip"
-
-      - name: Start MongoDB
-        uses: supercharge/mongodb-github-action@1.10.0
 
       - name: Install Pip requirements
         run: |
