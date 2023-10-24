@@ -4,10 +4,27 @@
 #
 #    pip-compile --output-file=base.pip pyproject.toml
 #
+amqp==5.1.1
+    # via kombu
+billiard==4.1.0
+    # via celery
 blinker==1.6.3
     # via flask
+celery==5.3.4
+    # via ads (pyproject.toml)
 click==8.1.7
-    # via flask
+    # via
+    #   celery
+    #   click-didyoumean
+    #   click-plugins
+    #   click-repl
+    #   flask
+click-didyoumean==0.3.0
+    # via celery
+click-plugins==1.1.1
+    # via celery
+click-repl==0.3.0
+    # via celery
 dnspython==2.4.2
     # via pymongo
 flask==3.0.0
@@ -20,13 +37,30 @@ itsdangerous==2.1.2
     # via flask
 jinja2==3.1.2
     # via flask
+kombu==5.3.2
+    # via celery
 markupsafe==2.1.3
     # via
     #   jinja2
     #   werkzeug
+prompt-toolkit==3.0.39
+    # via click-repl
 pymongo[srv]==4.5.0
     # via
     #   ads (pyproject.toml)
     #   flask-pymongo
+python-dateutil==2.8.2
+    # via celery
+six==1.16.0
+    # via python-dateutil
+tzdata==2023.3
+    # via celery
+vine==5.0.0
+    # via
+    #   amqp
+    #   celery
+    #   kombu
+wcwidth==0.2.8
+    # via prompt-toolkit
 werkzeug==3.0.0
     # via flask

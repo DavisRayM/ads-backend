@@ -13,6 +13,7 @@ dependencies = [
     "flask",
     "pymongo[srv]",
     "Flask-PyMongo",
+    "celery",
 ]
 
 [project.urls]
