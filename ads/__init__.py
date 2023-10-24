@@ -9,9 +9,8 @@ from flask import Flask, abort
 
 from typing import Any, Optional, Mapping
 
-from pymongo.errors import ServerSelectionTimeoutError
-
 from ads.db import db
+from ads.auth import bp
 
 
 def create_app(test_config: Optional[Mapping[str, Any]] = None):
@@ -19,7 +18,7 @@ def create_app(test_config: Optional[Mapping[str, Any]] = None):
     Flask application factory
     """
     app = Flask(__name__, instance_relative_config=True)
-    app.config.from_mapping(SECRET_KEY="dev", MONGO_URI="mongodb://dev:dev@mongo/ads")
+    app.config.from_mapping(SECRET_KEY="dev")
 
     if not test_config:
         app.config.from_pyfile("config.py", silent=True)
@@ -42,5 +41,8 @@ def create_app(test_config: Optional[Mapping[str, Any]] = None):
                 return "200"
             else:
                 abort(503)
+
+    # Register blueprints
+    app.register_blueprint(bp)
 
     return app

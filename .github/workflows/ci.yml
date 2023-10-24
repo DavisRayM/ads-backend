@@ -52,6 +52,9 @@ jobs:
             "base.pip"
             "dev.pip"
 
+      - name: Start MongoDB
+        uses: supercharge/mongodb-github-action@1.10.0
+
       - name: Install Pip requirements
         run: |
           pip install -U pip
