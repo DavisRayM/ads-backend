@@ -1,16 +1,8 @@
 import functools
 from collections.abc import Callable
 
-from flask import (
-    Blueprint,
-    flash,
-    g,
-    redirect,
-    render_template,
-    request,
-    session,
-    url_for,
-)
+from flask import (Blueprint, flash, g, redirect, render_template, request,
+                   session, url_for)
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from ads.db import get_db, get_user
@@ -26,7 +18,7 @@ def login_required(view: Callable):
     @functools.wraps(view)
     def wrapped_view(**kwargs):
         if g._user is None:
-            return redirect(url_for("admin.login"))
+            return redirect(url_for("auth.login"))
 
         return view(**kwargs)
 

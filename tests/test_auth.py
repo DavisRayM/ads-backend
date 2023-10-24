@@ -1,5 +1,6 @@
-from flask import g, session
 import pytest
+from flask import g, session
+
 from ads.db import get_db
 
 

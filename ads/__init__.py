@@ -10,7 +10,6 @@ from celery.app import Celery
 from celery.app.task import Task
 from flask import Flask, abort
 
-from ads.auth import bp
 from ads.db import get_db
 
 
@@ -50,6 +49,11 @@ def create_app(test_config: Optional[Mapping[str, Any]] = None):
     except OSError:
         pass
 
+    try:
+        os.makedirs(app.config["UPLOAD_FOLDER"])
+    except OSError:
+        pass
+
     @app.route("/healthz")
     def health_check():
         try:
@@ -65,6 +69,11 @@ def create_app(test_config: Optional[Mapping[str, Any]] = None):
     if app.config.get("CELERY"):
         celery_init(app)
     # Register blueprints
+    from .auth import bp
+
+    app.register_blueprint(bp)
+    from .prediction import bp
+
     app.register_blueprint(bp)
 
     return app

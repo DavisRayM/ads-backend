@@ -1,6 +1,6 @@
-from flask import Flask
-from flask.testing import FlaskCliRunner, FlaskClient
 import pytest
+from flask import Flask
+from flask.testing import FlaskClient, FlaskCliRunner
 
 from ads import create_app
 from ads.db import get_db
