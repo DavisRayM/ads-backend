@@ -3,6 +3,8 @@ services:
     build: .
     ports:
       - "5000:5000"
+    volumes:
+      - ".:/src/app"
     healthcheck:
       test: wget --no-verbose --tries=1 --spider http://backend:5000/healthz
       interval: 10s
