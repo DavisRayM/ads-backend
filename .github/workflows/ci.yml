@@ -1,0 +1,66 @@
+name: CI
+on:
+  pull_request:
+    branches: ["main"]
+  push:
+    branches: ["main"]
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.actor }}-${{ github.sha }}
+
+jobs:
+  run-linting:
+    name: Check code formatting
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+          architecture: "x64"
+          cache: "pip"
+          cache-dependency-path: |
+            "base.pip"
+            "dev.pip"
+
+      - name: Install Pip requirements
+        run: |
+          pip install -U pip
+          pip install flit
+          flit install --only-deps --deps develop
+
+      - name: Run flake8
+        run: flake8 ads
+
+      - name: Run formatter check
+        run: black --check ads
+
+  tests-coverage:
+    name: Run tests and coverage
+    runs-on: ubuntu-latest
+    env:
+      PYTHON_PATH: .
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+          architecture: "x64"
+          cache: "pip"
+          cache-dependency-path: |
+            "base.pip"
+            "dev.pip"
+
+      - name: Install Pip requirements
+        run: |
+          pip install -U pip
+          pip install flit
+          flit install --only-deps --deps develop
+
+      - name: Run tests
+        run:
+          coverage run -m pytest
+
+      - name: Generate report
+        run: coverage report --fail-under=80

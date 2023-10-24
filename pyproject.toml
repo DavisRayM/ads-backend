@@ -1,0 +1,49 @@
+[build-system]
+requires = ["flit_core >=3.2,<4"]
+build-backend = "flit_core.buildapi"
+
+[project]
+name = "ads"
+authors = [{name = "Davis Muro", email = "dmuro@seattleu.edu"}]
+readme = "README.md"
+license = {file = "LICENSE"}
+classifiers = ["License :: OSI Approved :: MIT License"]
+dynamic = ["version", "description"]
+dependencies = [
+    "flask",
+]
+
+[project.urls]
+Home = "https://github.com/DavisRayM/ads-backend"
+
+[project.optional-dependencies]
+test = [
+    "pytest",
+    "coverage",
+]
+dev = [
+    "pip-tools",
+    "black",
+    "flake8"
+]
+
+[tool.flit.module]
+name = "ads"
+
+[tool.flit.sdist]
+include = [
+    "tests/",
+]
+
+[tool.black]
+line-length = 88
+target-version = ['py310', 'py311']
+include = '\.pyi?$'
+
+[tool.pytest.ini_options]
+testpaths = ["tests/"]
+filterwarnings = ["error"]
+
+[tool.coverage.run]
+branch = true
+source = ["ads", "tests"]
