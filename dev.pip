@@ -17,9 +17,15 @@ click==8.1.7
     #   pip-tools
 coverage==7.3.2
     # via ads (pyproject.toml)
+dnspython==2.4.2
+    # via pymongo
 flake8==6.1.0
     # via ads (pyproject.toml)
 flask==3.0.0
+    # via
+    #   ads (pyproject.toml)
+    #   flask-pymongo
+flask-pymongo==2.3.0
     # via ads (pyproject.toml)
 iniconfig==2.0.0
     # via pytest
@@ -52,6 +58,10 @@ pycodestyle==2.11.1
     # via flake8
 pyflakes==3.1.0
     # via flake8
+pymongo[srv]==4.5.0
+    # via
+    #   ads (pyproject.toml)
+    #   flask-pymongo
 pyproject-hooks==1.0.0
     # via build
 pytest==7.4.2

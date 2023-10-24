@@ -11,6 +11,8 @@ classifiers = ["License :: OSI Approved :: MIT License"]
 dynamic = ["version", "description"]
 dependencies = [
     "flask",
+    "pymongo[srv]",
+    "Flask-PyMongo",
 ]
 
 [project.urls]
