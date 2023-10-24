@@ -36,6 +36,8 @@ def create_app(test_config: Optional[Mapping[str, Any]] = None):
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(
         SECRET_KEY="dev",
+        UPLOAD_FOLDER=f"{app.instance_path}/media",
+        ALLOWED_EXTENSIONS={"png", "jpg", "jpeg"},
     )
 
     if not test_config:
