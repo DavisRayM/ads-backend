@@ -51,3 +51,4 @@ filterwarnings = ["error"]
 [tool.coverage.run]
 branch = true
 source = ["ads", "tests"]
+omit = ["ads/default_settings.py"]
