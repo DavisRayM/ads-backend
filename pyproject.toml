@@ -12,9 +12,8 @@ dynamic = ["version", "description"]
 dependencies = [
     "flask",
     "pymongo[srv]",
-    "Flask-PyMongo",
     "celery[redis]",
-    "psycopg2-binary",
+    "psycopg[binary]",
 ]
 
 [project.urls]

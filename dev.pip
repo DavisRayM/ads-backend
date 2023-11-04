@@ -48,10 +48,6 @@ executing==2.0.0
 flake8==6.1.0
     # via ads (pyproject.toml)
 flask==3.0.0
-    # via
-    #   ads (pyproject.toml)
-    #   flask-pymongo
-flask-pymongo==2.3.0
     # via ads (pyproject.toml)
 iniconfig==2.0.0
     # via pytest
@@ -100,8 +96,10 @@ prompt-toolkit==3.0.39
     # via
     #   click-repl
     #   ipython
-psycopg2-binary==2.9.9
+psycopg[binary]==3.1.12
     # via ads (pyproject.toml)
+psycopg-binary==3.1.12
+    # via psycopg
 ptyprocess==0.7.0
     # via pexpect
 pure-eval==0.2.2
@@ -113,9 +111,7 @@ pyflakes==3.1.0
 pygments==2.16.1
     # via ipython
 pymongo[srv]==4.5.0
-    # via
-    #   ads (pyproject.toml)
-    #   flask-pymongo
+    # via ads (pyproject.toml)
 pyproject-hooks==1.0.0
     # via build
 pytest==7.4.2
@@ -134,6 +130,8 @@ traitlets==5.11.2
     # via
     #   ipython
     #   matplotlib-inline
+typing-extensions==4.8.0
+    # via psycopg
 tzdata==2023.3
     # via celery
 vine==5.0.0
