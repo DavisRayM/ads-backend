@@ -17,6 +17,20 @@ def allowed_file(filename):
     )
 
 
+@bp.route("/<int:prediction_id>", methods=("GET",))
+@login_required
+def get_prediction(prediction_id: int):
+    obj = Prediction.get(prediction_id)
+    if obj is not None:
+        return {
+            "id": obj.id,
+            "uploaded_on": obj.uploaded_on.isoformat(),
+            "status": obj.status,
+        }
+    else:
+        return {"error": "not found"}, 404
+
+
 @bp.route(
     "/request",
     methods=(
@@ -28,13 +42,11 @@ def allowed_file(filename):
 def request_prediction():
     if request.method == "POST":
         if "file" not in request.files:
-            flash("no file uploaded")
-            return redirect(url_for("health_check"))
+            return {"error": "file required"}, 400
 
         file = request.files["file"]
         if file.filename == "":
-            flash("no selected file")
-            return redirect(url_for("health_check"))
+            return {"error": "file required"}, 400
 
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
@@ -43,12 +55,14 @@ def request_prediction():
                 f"{os.path.join(current_app.config.get('UPLOAD_FOLDER'), filename)}"
             )
             file.save(file_path)
-            prediction = Prediction.create(g._user, file_path, "")
+            prediction = Prediction.create(g._user, file_path, None)
             if prediction:
                 prediction.process_request()
-                return redirect(url_for("health_check", name=filename))
+                return redirect(
+                    url_for("prediction.get_prediction", prediction_id=prediction.id)
+                )
             else:
-                flash("failed to create prediction request")
+                return {"error": "failed to create prediction request"}, 500
 
     return """
     <!doctype html>
