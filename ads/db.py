@@ -1,6 +1,8 @@
 """
 Module contains MongoDB helper functions
 """
+import os
+from sys import exception
 import click
 import psycopg
 from datetime import datetime
@@ -63,14 +65,75 @@ def init_db_command():
     click.echo("Initialized the database")
 
 
-def add_prediction(user_id: int, file_path: str, result_id: str = ""):
-    conn = get_db()
-    with conn.cursor() as cur:
-        cur.execute(
-            "INSERT INTO Prediction(user_id, file_path, uploaded_on, status, result_id) VALUES (?, ?, ?, ?, ?)",
-            (user_id, file_path, datetime.now().isoformat(), "pending", result_id),
-        )
-        conn.commit()
+class Prediction:
+    id: int
+    user_id: int
+    file_path: str
+    uploaded_on: datetime
+    status: str
+    result_id: int
+
+    def process_request(self):
+        """Process the prediction request; modify uploaded image and run through model"""
+        pass
+
+    def set_result(self, result_id: int):
+        self.result_id = result_id
+        self.status = "complete"
+        self._save()
+
+        try:
+            os.remove(self.file_path)
+        except OSError as e:
+            current_app.logger.error(
+                f"failed to delete image: {self.file_path} - {self.id}. Error: {e}"
+            )
+
+    def _save(self):
+        conn = get_db()
+        with conn.cursor() as cur:
+            cur.execute(
+                "UPDATE Prediction SET file_path = ?, status = ?, result_id = ?, user_id = ?",
+                (self.file_path, self.status, self.result_id, self.user_id),
+            )
+            conn.commit()
+
+    @property
+    def user(self):
+        if self.user_id:
+            return User.get(id=self.user_id)
+
+    @classmethod
+    def get(cls, id: int):
+        conn = get_db()
+        with conn.cursor() as cur:
+            cur.execute("SELECT * FROM Prediction WHERE id = %s", (id,))
+
+            row = cur.fetchone()
+            if row is not None:
+                obj = Prediction()
+                obj.id = row[0]
+                obj.file_path = row[1]
+                obj.uploaded_on = datetime.fromisoformat(row[2])
+                obj.status = row[3]
+                obj.result_id = row[4]
+                obj.user_id = row[5]
+                return obj
+            else:
+                return None
+
+    @classmethod
+    def create(cls, user_id, file_path, result_id):
+        conn = get_db()
+        with conn.cursor() as cur:
+            cur.execute(
+                "INSERT INTO Prediction(user_id, file_path, uploaded_on, status, result_id) VALUES (?, ?, ?, ?, ?)",
+                (user_id, file_path, datetime.now().isoformat(), "pending", result_id),
+            )
+            conn.commit()
+            result = cur.fetchone()
+            if result:
+                return cls.get(result[0])
 
 
 class User:
@@ -92,6 +155,9 @@ class User:
                 (username, password),
             )
             conn.commit()
+            result = cur.fetchone()
+            if result:
+                return cls.get(result[0])
 
     @classmethod
     def get(cls, username=None, id=None):
@@ -104,10 +170,10 @@ class User:
 
             row = cur.fetchone()
             if row is not None:
-                user = User()
-                user.id = row[0]
-                user.username = row[1]
-                user.hashed_password = row[2]
-                return user
+                obj = User()
+                obj.id = row[0]
+                obj.username = row[1]
+                obj.hashed_password = row[2]
+                return obj
             else:
                 return None

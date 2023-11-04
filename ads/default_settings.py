@@ -8,7 +8,7 @@ class Settings(object):
     """
 
     # For production pick an actual key
-    SECRET_KEY = secrets.token_urlsafe(16)
+    SECRET_KEY = environ.get("SECRET_KEY", secrets.token_urlsafe(16))
 
     ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg"}
 

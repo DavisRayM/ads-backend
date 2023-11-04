@@ -4,7 +4,7 @@ from flask import Blueprint, current_app, flash, g, redirect, request, url_for
 from werkzeug.utils import secure_filename
 
 from ads.auth import login_required
-from ads.db import add_prediction
+from ads.db import Prediction
 
 bp = Blueprint("prediction", __name__, url_prefix="/predict")
 
@@ -43,9 +43,12 @@ def request_prediction():
                 f"{os.path.join(current_app.config.get('UPLOAD_FOLDER'), filename)}"
             )
             file.save(file_path)
-            add_prediction(g._user["username"], file_path)
-
-            return redirect(url_for("health_check", name=filename))
+            prediction = Prediction.create(g._user, file_path, "")
+            if prediction:
+                prediction.process_request()
+                return redirect(url_for("health_check", name=filename))
+            else:
+                flash("failed to create prediction request")
 
     return """
     <!doctype html>

@@ -1,6 +1,9 @@
 services:
   backend:
     build: .
+    environment:
+      SECRET_KEY: "dev"
+      DATABASE_DSN: "host=postgres port=5432 dbname=ads user=ads password=ads"
     ports:
       - "5000:5000"
     volumes:
@@ -12,11 +15,14 @@ services:
       retries: 5
       start_period: 5s
     depends_on:
-      mongo:
+      postgres:
         condition: service_healthy
 
   worker:
     build: .
+    environment:
+      SECRET_KEY: "dev"
+      DATABASE_DSN: "host=postgres port=5432 dbname=ads user=ads password=ads"
     volumes:
       - ".:/src/app"
     command: celery -A make_celery.celery worker --loglevel INFO
@@ -36,14 +42,15 @@ services:
       retries: 5
       start_period: 10s
 
-  mongo:
-    image: mongo
+  postgres:
+    image: postgres
     restart: always
-    ports:
-      - "27017:27017"
+    environment:
+      POSTGRES_USER: "ads"
+      POSTGRES_PASSWORD: "ads"
+      POSTGRES_DB: "ads"
     healthcheck:
-      test: echo 'db.runCommand("ping").ok' | mongosh mongo:27017/test --quiet
+      test: pg_isready -U myuser -d db_prod
       interval: 10s
-      timeout: 10s
-      retries: 5
-      start_period: 10s
+      timeout: 3s
+      retries: 3
