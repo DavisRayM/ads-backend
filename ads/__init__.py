@@ -64,6 +64,8 @@ def create_app(test_config: Optional[Mapping[str, Any]] = None):
                 cur.fetchone()
         except Exception:
             abort(503)
+        else:
+            return "OK"
 
     from . import db
 

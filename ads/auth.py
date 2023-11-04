@@ -13,7 +13,7 @@ from flask import (
 )
 from werkzeug.security import check_password_hash
 
-from ads.db import add_user, get_user
+from ads.db import User
 
 bp = Blueprint("auth", __name__, url_prefix="/auth")
 
@@ -42,7 +42,7 @@ def load_user_from_session():
     if user_id is None:
         g._user = None
     else:
-        result = get_user(user_id)
+        result = User.get(id=user_id)
         if result:
             g._user = result
 
@@ -61,10 +61,10 @@ def register():
 
         if errors:
             flash(errors)
-        elif get_user(username):
+        elif User.get(username=username):
             flash("user already exists")
         else:
-            add_user(username, password)
+            User.create(username, password)
             return redirect(url_for("auth.login"))
 
     return render_template("auth/register.html")
@@ -82,19 +82,16 @@ def login():
         elif not password:
             errors = "Password is required"
 
-        user = get_user(username)
+        user = User.get(username=username)
 
         if errors:
             flash(errors)
-        elif not user or not check_password_hash(user.get("password_hash"), password):
+        elif not user or not check_password_hash(user.hashed_password, password):
             flash("invalid username/password")
         else:
             g._user = user
             session.clear()
-            session["user"] = user.get("username")
-            import ipdb
-
-            ipdb.set_trace()
+            session["user"] = user.id
 
             return redirect(url_for("health_check"))
 

@@ -54,21 +54,11 @@ def add_user(username: str, raw_password: str):
     """
     Adds a new user to the database
     """
-    password = generate_password_hash(raw_password)
-    conn = get_db()
-
-    with conn.cursor() as cur:
-        cur.execute(
-            "INSERT INTO AppUser (username, password) VALUES (%s, %s)",
-            (username, password),
-        )
-        conn.commit()
+    User.create(username, raw_password)
 
 
 def get_user(username: str):
-    with get_db().cursor() as cur:
-        cur.execute("SELECT * FROM AppUser WHERE username = %s", (username,))
-        return cur.fetchone()
+    return User.get(username=username)
 
 
 def add_prediction(user_id: int, file_path: str, result_id: str = ""):
@@ -79,3 +69,43 @@ def add_prediction(user_id: int, file_path: str, result_id: str = ""):
             (user_id, file_path, datetime.now().isoformat(), "pending", result_id),
         )
         conn.commit()
+
+
+class User:
+    username: str
+    id: int
+    hashed_password: str
+
+    def __str__(self) -> str:
+        return f"{self.id}: {self.username}"
+
+    @classmethod
+    def create(cls, username, password):
+        password = generate_password_hash(password)
+        conn = get_db()
+
+        with conn.cursor() as cur:
+            cur.execute(
+                "INSERT INTO AppUser (username, password) VALUES (%s, %s)",
+                (username, password),
+            )
+            conn.commit()
+
+    @classmethod
+    def get(cls, username=None, id=None):
+        conn = get_db()
+        with conn.cursor() as cur:
+            if username is not None:
+                cur.execute("SELECT * FROM AppUser WHERE username = %s", (username,))
+            else:
+                cur.execute("SELECT * FROM AppUser WHERE id = %s", (id,))
+
+            row = cur.fetchone()
+            if row is not None:
+                user = User()
+                user.id = row[0]
+                user.username = row[1]
+                user.hashed_password = row[2]
+                return user
+            else:
+                return None
