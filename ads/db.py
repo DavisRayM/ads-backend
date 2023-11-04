@@ -50,17 +50,6 @@ def init_db_command():
     click.echo("Initialized the database")
 
 
-def add_user(username: str, raw_password: str):
-    """
-    Adds a new user to the database
-    """
-    User.create(username, raw_password)
-
-
-def get_user(username: str):
-    return User.get(username=username)
-
-
 def add_prediction(user_id: int, file_path: str, result_id: str = ""):
     conn = get_db()
     with conn.cursor() as cur:
