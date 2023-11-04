@@ -40,7 +40,8 @@ def create_app(test_config: Optional[Mapping[str, Any]] = None):
     )
 
     if not test_config:
-        app.config.from_pyfile("config.py", silent=True)
+        app.config.from_object("ads.default_settings.Settings")
+        app.config.from_pyfile("local_settings.py", silent=True)
     else:
         app.config.from_mapping(test_config)
 
@@ -57,14 +58,16 @@ def create_app(test_config: Optional[Mapping[str, Any]] = None):
     @app.route("/healthz")
     def health_check():
         try:
-            resp = get_db().command("ping")
+            conn = get_db()
+            with conn.cursor() as cur:
+                cur.execute("SELECT 1")
+                cur.fetchone()
         except Exception:
             abort(503)
-        else:
-            if resp.get("ok") == 1.0:
-                return "200"
-            else:
-                abort(503)
+
+    from . import db
+
+    db.init_app(app)
 
     if app.config.get("CELERY"):
         celery_init(app)

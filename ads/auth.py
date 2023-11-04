@@ -1,11 +1,19 @@
 import functools
 from collections.abc import Callable
 
-from flask import (Blueprint, flash, g, redirect, render_template, request,
-                   session, url_for)
-from werkzeug.security import check_password_hash, generate_password_hash
+from flask import (
+    Blueprint,
+    flash,
+    g,
+    redirect,
+    render_template,
+    request,
+    session,
+    url_for,
+)
+from werkzeug.security import check_password_hash
 
-from ads.db import get_db, get_user
+from ads.db import add_user, get_user
 
 bp = Blueprint("auth", __name__, url_prefix="/auth")
 
@@ -56,10 +64,7 @@ def register():
         elif get_user(username):
             flash("user already exists")
         else:
-            password = generate_password_hash(password)
-            user_doc = {"username": username, "password_hash": password}
-            get_db().users.insert_one(user_doc)
-
+            add_user(username, password)
             return redirect(url_for("auth.login"))
 
     return render_template("auth/register.html")
@@ -87,6 +92,9 @@ def login():
             g._user = user
             session.clear()
             session["user"] = user.get("username")
+            import ipdb
+
+            ipdb.set_trace()
 
             return redirect(url_for("health_check"))
 
