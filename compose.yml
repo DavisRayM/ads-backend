@@ -50,7 +50,7 @@ services:
       POSTGRES_PASSWORD: "ads"
       POSTGRES_DB: "ads"
     healthcheck:
-      test: pg_isready -U myuser -d db_prod
+      test: pg_isready -U ads -d ads
       interval: 10s
       timeout: 3s
       retries: 3

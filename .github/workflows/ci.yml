@@ -49,9 +49,13 @@ jobs:
           --health-timeout 5s
           --health-retries 5
       mongo:
-        image: mongo
+        image: postgres
+        env:
+          POSTGRES_USER: "test"
+          POSTGRES_PASSWORD: "test"
+          POSTGRES_DB: "test"
         options: >-
-          --health-cmd "echo 'db.runCommand(\"ping\").ok' | mongosh mongo:27017/test --quiet"
+          --health-cmd "pg_isready -U test -d test"
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
@@ -74,6 +78,8 @@ jobs:
           flit install --only-deps --deps develop
 
       - name: Run tests
+        env:
+          DATABASE_DSN: "host=postgres port=5432 dbname=test user=test password=test"
         run:
           coverage run -m pytest
 
