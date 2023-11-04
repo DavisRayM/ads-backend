@@ -1,7 +1,7 @@
 import pytest
 from flask import g, session
 
-from ads.db import get_db
+from ads.db import User
 
 
 def test_register_works(app, client):
@@ -12,7 +12,7 @@ def test_register_works(app, client):
     assert resp.headers["Location"] == "/auth/login"
 
     with app.app_context():
-        assert get_db().users.find_one({"username": "bob"}) is not None
+        assert User.get(username="bob") is not None
 
 
 @pytest.mark.parametrize(
@@ -38,8 +38,8 @@ def test_login_works(client, auth):
 
     with client:
         client.get("/healthz")
-        assert session["user"] == "bob"
-        assert g._user["username"] == "bob"
+        assert session["user"] == User.get(username="bob").id
+        assert g._user.username == "bob"
 
 
 @pytest.mark.parametrize(

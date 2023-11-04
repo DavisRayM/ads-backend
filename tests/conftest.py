@@ -3,7 +3,7 @@ from flask import Flask
 from flask.testing import FlaskClient, FlaskCliRunner
 
 from ads import create_app
-from ads.db import get_db
+from ads.db import drop_db, init_db
 
 
 class AuthActions(object):
@@ -21,17 +21,11 @@ class AuthActions(object):
 
 @pytest.fixture
 def app():
-    app = create_app(
-        {
-            "TESTING": True,
-            "MONGO_URI": "mongodb://mongo/test",
-            "CELERY": {
-                "broker_url": "redis://redis",
-                "result_backend": "redis://redis",
-                "task_ignore_result": False,
-            },
-        }
-    )
+    app = create_app()
+
+    with app.app_context():
+        drop_db()
+        init_db()
 
     yield app
 
@@ -44,15 +38,6 @@ def client(app: Flask) -> FlaskClient:
 @pytest.fixture
 def runner(app: Flask) -> FlaskCliRunner:
     return app.test_cli_runner()
-
-
-@pytest.fixture(autouse=True, scope="function")
-def cleanup_db(app):
-    yield
-
-    with app.app_context():
-        db = get_db()
-        db.users.drop()
 
 
 @pytest.fixture

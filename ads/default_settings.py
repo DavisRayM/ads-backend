@@ -1,3 +1,4 @@
+from os import environ
 import secrets
 
 
@@ -18,4 +19,7 @@ class Settings(object):
     }
 
     # More info: https://www.postgresql.org/docs/current/libpq-connect.html#LIBPQ-CONNSTRING
-    DATABASE_DSN = "host=localhost port=5432 dbname=ads_backend user=dev password=dev"
+    DATABASE_DSN = environ.get(
+        "DATABASE_DSN",
+        "host=localhost port=5432 dbname=ads_backend user=dev password=dev",
+    )

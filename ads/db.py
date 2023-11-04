@@ -43,6 +43,19 @@ def init_db():
             conn.commit()
 
 
+def drop_db():
+    """
+    Drops all application tables
+    """
+    conn = get_db()
+
+    with conn.cursor() as cur:
+        cur.execute("DROP TABLE Prediction")
+        cur.execute("DROP TABLE Result")
+        cur.execute("DROP TABLE AppUser")
+        conn.commit()
+
+
 @click.command("init-db")
 def init_db_command():
     """Runs application migrations"""

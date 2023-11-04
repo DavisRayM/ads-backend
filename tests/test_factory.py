@@ -8,4 +8,4 @@ def test_config():
 
 def test_healthz(client):
     response = client.get("/healthz")
-    assert response.data == b"200"
+    assert response.data == b"OK"
