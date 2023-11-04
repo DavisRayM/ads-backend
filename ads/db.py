@@ -2,7 +2,6 @@
 Module contains MongoDB helper functions
 """
 import os
-from sys import exception
 import click
 import psycopg
 from datetime import datetime
@@ -59,8 +58,18 @@ def drop_db():
 
 
 @click.command("init-db")
-def init_db_command():
+@click.option(
+    "--drop",
+    help="Whether to drop database",
+    is_flag=True,
+    show_default=True,
+    default=False,
+)
+def init_db_command(drop: bool):
     """Runs application migrations"""
+    if drop:
+        drop_db()
+        click.echo("Dropped tables")
     init_db()
     click.echo("Initialized the database")
 
@@ -114,7 +123,7 @@ class Prediction:
                 obj = Prediction()
                 obj.id = row[0]
                 obj.file_path = row[1]
-                obj.uploaded_on = datetime.fromisoformat(row[2])
+                obj.uploaded_on = row[2]
                 obj.status = row[3]
                 obj.result_id = row[4]
                 obj.user_id = row[5]
@@ -123,17 +132,17 @@ class Prediction:
                 return None
 
     @classmethod
-    def create(cls, user_id, file_path, result_id):
+    def create(cls, user, file_path, result_id):
         conn = get_db()
         with conn.cursor() as cur:
             cur.execute(
-                "INSERT INTO Prediction(user_id, file_path, uploaded_on, status, result_id) VALUES (?, ?, ?, ?, ?)",
-                (user_id, file_path, datetime.now().isoformat(), "pending", result_id),
+                "INSERT INTO Prediction(user_id, file_path, uploaded_on, status, result_id) VALUES (%s, %s, %s, %s, %s) RETURNING id",
+                (user.id, file_path, datetime.now().isoformat(), "pending", result_id),
             )
             conn.commit()
             result = cur.fetchone()
             if result:
-                return cls.get(result[0])
+                return cls.get(id=result[0])
 
 
 class User:
@@ -151,13 +160,13 @@ class User:
 
         with conn.cursor() as cur:
             cur.execute(
-                "INSERT INTO AppUser (username, password) VALUES (%s, %s)",
+                "INSERT INTO AppUser (username, password) VALUES (%s, %s) RETURNING id",
                 (username, password),
             )
             conn.commit()
             result = cur.fetchone()
             if result:
-                return cls.get(result[0])
+                return cls.get(id=result[0])
 
     @classmethod
     def get(cls, username=None, id=None):
