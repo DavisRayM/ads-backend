@@ -40,27 +40,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       PYTHON_PATH: .
-    services:
-      redis:
-        image: redis
-        options: >-
-          --health-cmd "redis-cli ping"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-      postgres:
-        image: postgres
-        env:
-          POSTGRES_USER: "test"
-          POSTGRES_PASSWORD: "test"
-          POSTGRES_DB: "test"
-        ports:
-          - 5432:5432
-        options: >-
-          --health-cmd "pg_isready -U test -d test"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
     steps:
       - uses: actions/checkout@v3
 
@@ -73,17 +52,6 @@ jobs:
             "base.pip"
             "dev.pip"
 
-      - name: Install Pip requirements
-        run: |
-          pip install -U pip
-          pip install flit
-          flit install --only-deps --deps develop
-
       - name: Run tests
-        env:
-          DATABASE_DSN: "host=postgres port=5432 dbname=test user=test password=test"
         run:
-          coverage run -m pytest
-
-      - name: Generate report
-        run: coverage report --fail-under=80
+          docker-compose run --rm backend sh -c "flask --app ads init-db && coverage run -m pytest && coverage report --fail-under=80"
