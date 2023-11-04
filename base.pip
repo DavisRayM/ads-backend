@@ -45,6 +45,8 @@ markupsafe==2.1.3
     #   werkzeug
 prompt-toolkit==3.0.39
     # via click-repl
+psycopg2-binary==2.9.9
+    # via ads (pyproject.toml)
 pymongo[srv]==4.5.0
     # via
     #   ads (pyproject.toml)
