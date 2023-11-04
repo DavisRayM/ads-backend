@@ -1,6 +1,6 @@
 import os
 
-from flask import Blueprint, current_app, flash, g, redirect, request, url_for
+from flask import Blueprint, current_app, g, redirect, request, url_for
 from werkzeug.utils import secure_filename
 
 from ads.auth import login_required
