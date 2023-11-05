@@ -22,11 +22,7 @@ def allowed_file(filename):
 def get_prediction(prediction_id: int):
     obj = Prediction.get(prediction_id)
     if obj is not None:
-        return {
-            "id": obj.id,
-            "uploaded_on": obj.uploaded_on.isoformat(),
-            "status": obj.status,
-        }
+        return obj.dict()
     else:
         return {"error": "not found"}, 404
 
@@ -45,10 +41,12 @@ def request_prediction():
             return {"error": "file required"}, 400
 
         file = request.files["file"]
+        print(file.filename)
         if file.filename == "":
             return {"error": "file required"}, 400
-
-        if file and allowed_file(file.filename):
+        elif not allowed_file(file.filename):
+            return {"error": "unsupported file type"}, 400
+        else:
             filename = secure_filename(file.filename)
 
             file_path = (

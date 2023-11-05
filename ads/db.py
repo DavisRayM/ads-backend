@@ -86,6 +86,13 @@ class Prediction:
         """Process the prediction request; modify uploaded image and run through model"""
         pass
 
+    def dict(self):
+        return {
+            "id": self.id,
+            "uploaded_on": self.uploaded_on.isoformat(),
+            "status": self.status,
+        }
+
     def set_result(self, result_id: int):
         self.result_id = result_id
         self.status = "complete"
