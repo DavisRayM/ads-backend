@@ -10,6 +10,11 @@ class AuthActions(object):
     def __init__(self, client: FlaskClient):
         self._client: FlaskClient = client
 
+    def register(self, username: str = "test", password: str = "test"):
+        return self._client.post(
+            "/auth/register", data={"username": username, "password": password}
+        )
+
     def login(self, username: str = "test", password: str = "test"):
         return self._client.post(
             "/auth/login", data={"username": username, "password": password}
@@ -42,4 +47,6 @@ def runner(app: Flask) -> FlaskCliRunner:
 
 @pytest.fixture
 def auth(client: FlaskClient) -> AuthActions:
-    return AuthActions(client)
+    auth = AuthActions(client)
+    auth.register()
+    return auth
