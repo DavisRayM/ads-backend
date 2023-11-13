@@ -1,137 +1,137 @@
 /* Import Google Fonts */
-@import url('https://fonts.google.com/specimen/Gabarito');
+@import url("https://fonts.google.com/specimen/Gabarito");
 
 /* Reset CSS */
 * {
-    margin: 0;
+  margin: 0;
 }
 
 body {
-    background: linear-gradient(to right, #07263A, #398D9F);
-    font-family: 'Gabarito', sans-serif;
-    color: #E4EAEC;
+  background: linear-gradient(to right, #07263a, #398d9f);
+  font-family: "Gabarito", sans-serif;
+  color: #e4eaec;
 }
 
 /* Container One */
 .container-one {
-    height: 20vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    text-align: center;
+  height: 20vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
 }
 
 .nav-upload-xray-text {
-    font-size: 25px;
-    padding-right: 25vw;
+  font-size: 25px;
+  padding-right: 25vw;
 }
 
 /* Container Two */
 .container-two {
-    display: flex;
-    align-items: center;
-    height: 70vh;
-    background: linear-gradient(to right, #001C2D, #336B82);
-    background-image: url('Assets/Skeleton.png');
-    background-size: contain;
-    background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+  height: 70vh;
+  background: linear-gradient(to right, #001c2d, #336b82);
+  background-image: url("Assets/Skeleton.png");
+  background-size: contain;
+  background-repeat: no-repeat;
 }
 
 .container-three {
-    height: 10vh;
+  height: 10vh;
 }
 
 /* Container Four */
 .container-four {
-    width: 50vw;
-    height: 100%;
+  width: 50vw;
+  height: 100%;
 }
 
 /* Container Five */
 .container-five {
-    width: 50vw;
-    height: 100%;
+  width: 50vw;
+  height: 100%;
 }
 
 .container-five-background {
-    background: linear-gradient(to right, #051D30, #152E49);
-    width: 80%;
-    height: 50%;
+  background: linear-gradient(to right, #051d30, #152e49);
+  width: 80%;
+  height: 50%;
 }
-.upload-file-more-info{
-    display: flex;
+.upload-file-more-info {
+  display: flex;
 }
 .upload-file-more-info p {
-    width: 70%;
+  width: 70%;
 }
 .upload-file-more-info button {
-    background: #16EBE2;
-    height: 50px;
-    width: 10%;
-    font-weight: bold;
-    border: none;
-    border-radius: 10px;
+  background: #16ebe2;
+  height: 50px;
+  width: 10%;
+  font-weight: bold;
+  border: none;
+  border-radius: 10px;
 }
 
 .container-six {
-    height: 50%;
-    width: 50vw;
+  height: 50%;
+  width: 50vw;
 }
 
 /* Navigation */
 .navigation-container {
-    background: linear-gradient(to right, #05192B, #2F6378);
-    height: 33%;
-    display: flex;
-    align-items: center;
-    color: #A9BBC3;
+  background: linear-gradient(to right, #05192b, #2f6378);
+  height: 33%;
+  display: flex;
+  align-items: center;
+  color: #a9bbc3;
 }
 
 .home-page-nav-bar {
-    width: 80vw;
+  width: 80vw;
 }
 
 .navigation-container ul {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .navigation-container ul li {
-    list-style: none;
-    float: left;
-    padding-left: 2vw; 
-    font-size: 25px;
+  list-style: none;
+  float: left;
+  padding-left: 2vw;
+  font-size: 25px;
 }
 
 .navigation-container ul li a {
-    text-decoration: none;
-    color: #A9BBC3;
+  text-decoration: none;
+  color: #a9bbc3;
 }
 
 .home-page-logo {
-    width: 10vw;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  width: 10vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .home-page-contact {
-    width: 15vw;
+  width: 15vw;
 }
 
 /* Drag and Drop Area */
 #drop-area {
-    background: linear-gradient(to right, #051D30, #152E49);
-    width: 80%;
-    height: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
+  background: linear-gradient(to right, #051d30, #152e49);
+  width: 80%;
+  height: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
 }
 
 #file-list {
-    margin-top: 20px;
+  margin-top: 20px;
 }
 
 /* Additional Styling */
