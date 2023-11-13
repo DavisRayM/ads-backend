@@ -8,7 +8,7 @@ from typing import Any, Mapping, Optional
 
 from celery.app import Celery
 from celery.app.task import Task
-from flask import Flask, abort
+from flask import Flask, abort, render_template
 
 from ads.db import get_db
 
@@ -66,6 +66,13 @@ def create_app(test_config: Optional[Mapping[str, Any]] = None):
             abort(503)
         else:
             return "OK"
+
+    @app.route("/")
+    def index():
+        """
+        Home page
+        """
+        return render_template("index.html")
 
     from . import db
 
