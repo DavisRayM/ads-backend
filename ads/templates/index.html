@@ -1,61 +1,60 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <!-- Container One -->
-    <div class="container-one">
-        <div class="navigation-container">
-            <div class="home-page-logo">
-                <h1>ScanAI</h1>
-            </div>
-            <div class="home-page-nav-bar">
-                <ul>
-                    <li><a href="#">Research</a></li>
-                    <li><a href="#">FAQs</a></li>
-                    <li><a href="#">Our Team</a></li>
-                </ul>
-            </div>
-            <div class="home-page-contact">
-                <ul>
-                    <li><a href="#">Contact Us</a></li>
-                </ul>
-            </div>
-        </div>
-        <p class="nav-upload-xray-text">Upload X Ray</p>    
+{% extends 'base.html' %} {% block content %}
+<!-- Container One -->
+<div class="container-one">
+  <div class="navigation-container">
+    <div class="home-page-logo">
+      <h1>ScanAI</h1>
     </div>
-
-    <!-- Container Two -->
-    <div class="container-two">
-        <div class="container-four">
-        </div>
-        <div class="container-five">
-            <div class="container-six">
-                <!-- Drag and Drop Area -->
-                <div id="drop-area" ondrop="dropHandler(event);" ondragover="dragOverHandler(event);">
-                    <p>Drag & Drop files here or click to select</p>
-                </div>
-                <div id="file-list"></div>
-
-                <!-- Additional Information and Background -->
-                <div class="upload-file-more-info">
-                    <p>Our Machine Learning Model will look for medical problems such as fractures, scoliosis, and dysphagia</p>
-                    <button>More Info</button>
-                </div>
-                <div class="container-five-background"></div>
-                <div>Note: ScanAI will occasionally make errors. We are always refining our model to find new ways to improve.</div>
-            </div>
-        </div>
+    <div class="home-page-nav-bar">
+      <ul>
+        <li><a href="#">Research</a></li>
+        <li><a href="#">FAQs</a></li>
+        <li><a href="#">Our Team</a></li>
+      </ul>
     </div>
-
-    <!-- Container Three -->
-    <div class="container-three">
-        <button>Scan</button>
+    <div class="home-page-contact">
+      <ul>
+        <li><a href="#">Contact Us</a></li>
+      </ul>
     </div>
+  </div>
+  <p class="nav-upload-xray-text">Upload X Ray</p>
+</div>
 
-</body>
-</html>
+<!-- Container Two -->
+<div class="container-two">
+  <div class="container-four"></div>
+  <div class="container-five">
+    <div class="container-six">
+      <!-- Drag and Drop Area -->
+      <div
+        id="drop-area"
+        ondrop="dropHandler(event);"
+        ondragover="dragOverHandler(event);"
+      >
+        <p>Drag & Drop files here or click to select</p>
+      </div>
+      <div id="file-list"></div>
+
+      <!-- Additional Information and Background -->
+      <div class="upload-file-more-info">
+        <p>
+          Our Machine Learning Model will look for medical problems such as
+          fractures, scoliosis, and dysphagia
+        </p>
+        <button>More Info</button>
+      </div>
+      <div class="container-five-background"></div>
+      <div>
+        Note: ScanAI will occasionally make errors. We are always refining our
+        model to find new ways to improve.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Container Three -->
+<div class="container-three">
+  <button>Scan</button>
+</div>
+{% endblock %}
