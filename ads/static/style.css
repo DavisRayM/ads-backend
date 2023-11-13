@@ -1,5 +1,4 @@
-/* Import Google Fonts */
-@import url("https://fonts.googleapis.com/css?family=Gabarito");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap");
 
 /* Reset CSS */
 * {
@@ -8,7 +7,7 @@
 
 body {
   background: linear-gradient(to right, #07263a, #398d9f);
-  font-family: "Gabarito", sans-serif;
+  font-family: "Poppins", sans-serif;
   color: #e4eaec;
 }
 
@@ -32,7 +31,6 @@ body {
   align-items: center;
   height: 70vh;
   background: linear-gradient(to right, #001c2d, #336b82);
-  background-image: url("Assets/Skeleton.png");
   background-size: contain;
   background-repeat: no-repeat;
 }
@@ -133,5 +131,3 @@ body {
 #file-list {
   margin-top: 20px;
 }
-
-/* Additional Styling */
