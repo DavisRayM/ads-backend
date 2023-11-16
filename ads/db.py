@@ -82,10 +82,6 @@ class Prediction:
     status: str
     result_id: int
 
-    def process_request(self):
-        """Process the prediction request; modify uploaded image and run through model"""
-        pass
-
     def dict(self):
         return {
             "id": self.id,

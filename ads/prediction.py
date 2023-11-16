@@ -1,5 +1,8 @@
 import os
 
+from celery.app import shared_task
+from ads.tasks import process_prediction
+
 from flask import Blueprint, current_app, g, redirect, request, url_for
 from werkzeug.utils import secure_filename
 
@@ -55,7 +58,9 @@ def request_prediction():
             file.save(file_path)
             prediction = Prediction.create(g._user, file_path, None)
             if prediction:
-                prediction.process_request()
+                # TODO: Uncomment for asynchronous
+                # process_prediction.delay(prediction.id)
+                process_prediction(prediction.id)
                 return redirect(
                     url_for("prediction.get_prediction", prediction_id=prediction.id)
                 )
