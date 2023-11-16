@@ -2,6 +2,7 @@ import pytest
 import io
 
 from ads.prediction import allowed_file
+from unittest.mock import patch
 
 
 @pytest.mark.parametrize(
@@ -33,14 +34,16 @@ def test_get_prediction_not_found(client, auth):
 
 
 def test_request_prediction(client, auth):
-    auth.login()
-    resp = client.post(
-        "/predict/request",
-        data={"file": (io.BytesIO(b"some initial data"), "sample_image.jpg")},
-    )
-    print(resp.headers)
-    assert resp.status_code == 302
+    with patch("ads.prediction.process_prediction") as process_prediction:
+        auth.login()
+        resp = client.post(
+            "/predict/request",
+            data={"file": (io.BytesIO(b"some initial data"), "sample_image.jpg")},
+        )
+        print(resp.headers)
+        assert resp.status_code == 302
 
-    resp = client.get(resp.headers["Location"])
-    assert resp.status_code == 200
-    assert resp.json["status"] == "pending"
+        resp = client.get(resp.headers["Location"])
+        assert resp.status_code == 200
+        assert resp.json["status"] == "pending"
+        process_prediction.delay.assert_called()
