@@ -247,7 +247,9 @@ body {
   width: 15vw;
   height: 7.5vh;
   z-index: 4;
+  cursor: pointer;
 }
+
 .scan-button:hover {
   cursor: pointer;
 }

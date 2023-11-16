@@ -20,7 +20,6 @@ def allowed_file(filename):
 
 
 @bp.route("/<int:prediction_id>", methods=("GET",))
-@login_required
 def get_prediction(prediction_id: int):
     obj = Prediction.get(prediction_id)
     if obj is not None:
@@ -36,7 +35,6 @@ def get_prediction(prediction_id: int):
         "GET",
     ),
 )
-@login_required
 def request_prediction():
     if request.method == "POST":
         if "file" not in request.files:

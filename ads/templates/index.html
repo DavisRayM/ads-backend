@@ -41,7 +41,7 @@
     <div class="container-one">
         <div class="navigation-container">
             <div class="home-page-logo">
-                <img src="./Assets/Logo.png" alt="">
+                <img src="{{ url_for('static', filename='images/Logo.png') }}" alt="">
                 <h1>ScanAI</h1>
             </div>
             <div class="home-page-nav-bar">
@@ -70,15 +70,17 @@
                 <p>Our Machine Learning Model will look for medical problems such as fractures, scoliosis, and dysphagia</p>
             </div>
 
-            <div class="hero">
-                <div class="card">
-                    <h1>Upload an MRI</h1> <!-- Heading within the card -->
-                    <img src="{{ url_for('static', filename='images/DragFileIMG.png') }}">
-                    <input style="display: none;" type="file" accept="image/jpeg, image/png, image/jpg" id="input-file">
+                <div class="hero">
+                    <div class="card">
+                        <form id="upload-form" method="POST" action="predict/request" enctype="multipart/form-data">
+                            <h1>Upload an MRI</h1> <!-- Heading within the card -->
+                            <img src="{{ url_for('static', filename='images/DragFileIMG.png') }}">
+                            <input style="display: none;" type="file" accept="image/jpeg, image/png, image/jpg" id="input-file" name="file">
+                        </form>
+                    </div>
                 </div>
-            </div>
-            <label class="scan-button" for="input-file">Add file</label>
-            <img class="scan-button-two" src="{{ url_for('static', filename='images/Button.png') }}" alt="">
+                <label class="scan-button" for="input-file">Add file</label>
+                <img class="scan-button-two" src="{{ url_for('static', filename='images/Button.png') }}" alt="" onclick="document.getElementById('upload-form').submit()">
         </div>
     </div>
     <script src="{{ url_for('static', filename='script.js') }}"></script>
