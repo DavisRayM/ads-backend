@@ -14,6 +14,8 @@ dependencies = [
     "pymongo[srv]",
     "celery[redis]",
     "psycopg[binary]",
+    "tensorflow[and-cuda]",
+    "Flask-Mail",
 ]
 
 [project.urls]
