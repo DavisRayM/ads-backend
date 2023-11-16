@@ -41,12 +41,12 @@
     <div class="container-one">
         <div class="navigation-container">
             <div class="home-page-logo">
+                <img src="./Assets/Logo.png" alt="">
                 <h1>ScanAI</h1>
             </div>
             <div class="home-page-nav-bar">
                 <ul>
                     <li><a href="{{ url_for('index') }}">Research</a></li>
-                    <li><a href="#">FAQs</a></li>
                     <li><a href="{{ url_for('team_page') }}">Our Team</a></li>
                 </ul>
             </div>
@@ -66,35 +66,19 @@
         <!-- Home Content Container -->
         <div class="home-content-container">
 
-            <div class="drag-file-container">
-                <!-- Drag and Drop Area -->
-                <div class="card">
-                    <form action="/predict/request" method="post" enctype="multipart/form-data">
-                        <h1>Upload an MRI</h1>
-                        <img id="placeholder"/>
-                        <label for="input-file">Add file</label>
-                        <input
-                          type="file"
-                          style="display: none;"
-                          accept="image/jpeg, image/png, image/jpg"
-                          name=file
-                          onchange="document.getElementById('placeholder').src = window.URL.createObjectURL(this.files[0])"
-                          id="input-file"
-                        />
-                        <input type="submit" value="Upload File">
-                    </form>
-                </div> 
-            </div>
-            <div class="hero">
-            </div>
-            <!-- Additional Information and Background -->
             <div class="upload-file-more-info">
                 <p>Our Machine Learning Model will look for medical problems such as fractures, scoliosis, and dysphagia</p>
-                <button id="more-info-button" onclick="test()">More Info</button>
             </div>
-            <div class="rectangle-image"></div>
-            <div>Note: ScanAI will occasionally make errors. We are always refining our model to find new ways to improve.</div>
-            <button id="scan-button" class="home-page-scan-button">SCAN</button>   
+
+            <div class="hero">
+                <div class="card">
+                    <h1>Upload an MRI</h1> <!-- Heading within the card -->
+                    <img src="{{ url_for('static', filename='images/DragFileIMG.png') }}">
+                    <input style="display: none;" type="file" accept="image/jpeg, image/png, image/jpg" id="input-file">
+                </div>
+            </div>
+            <label class="scan-button" for="input-file">Add file</label>
+            <img class="scan-button-two" src="{{ url_for('static', filename='images/Button.png') }}" alt="">
         </div>
     </div>
     <script src="{{ url_for('static', filename='script.js') }}"></script>

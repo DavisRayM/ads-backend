@@ -9,7 +9,7 @@
 body {
   background: linear-gradient(to right, #07263a, #398d9f);
   font-family: "Poppins", sans-serif;
-  color: #e4eaec;
+  color: #bffaf7;
 }
 /* Navigation */
 .navigation-container {
@@ -17,7 +17,6 @@ body {
   height: 33%;
   display: flex;
   align-items: center;
-  color: #a9bbc3;
 }
 
 .home-page-nav-bar {
@@ -38,7 +37,7 @@ body {
 
 .navigation-container ul li a {
   text-decoration: none;
-  color: #a9bbc3;
+  color: #bffaf7;
 }
 
 .home-page-logo {
@@ -86,16 +85,6 @@ body {
   background-repeat: no-repeat;
 }
 
-.body-container::before {
-  left: 0;
-  z-index: 2;
-}
-
-.body-container::after {
-  bottom: 0;
-  z-index: 1;
-}
-
 /* Container Two */
 .container-two {
   height: 91%;
@@ -140,9 +129,9 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 70%;
+  text-align: center;
   height: 15vh;
-  font-size: 1.5vh;
+  font-size: 2vh;
 }
 .upload-file-more-info p {
   width: 70%;
@@ -188,4 +177,77 @@ body {
   background: linear-gradient(to right, #011929, #152d47);
   width: 100%;
   height: 15vh;
+}
+.home-page-logo {
+  font-size: 2.25vh;
+}
+.home-page-logo img {
+  padding-left: 2.5vw;
+  width: 5vh;
+}
+
+/* Styles for the hero section */
+.hero {
+  width: 75%;
+  height: 40%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin-bottom: 5vh;
+}
+
+.hero p {
+  font-size: 12px;
+}
+.hero-p-big {
+  font-size: 15px;
+}
+
+.home-content-container h1 {
+  font-weight: 200;
+}
+.home-content-container button {
+  margin-top: 1.5vh;
+  font-weight: 100;
+  border-radius: 15px;
+}
+/* Styles for the image */
+.hero img {
+  width: 42vw;
+  height: 18vw;
+}
+
+/* Styles for the button */
+.hero label {
+  cursor: pointer;
+  display: block;
+  width: 80%;
+  background: #17eae2;
+  color: #000000;
+}
+
+/* Hiding input elements */
+.hero input {
+  display: none;
+}
+.scan-button {
+  z-index: 4;
+  cursor: pointer;
+  width: 15vw;
+  background: #17eae2;
+  color: #000000;
+  padding: 10px;
+  margin: 25px;
+  border-radius: 20px;
+  text-align: center;
+}
+.scan-button-two {
+  width: 15vw;
+  height: 7.5vh;
+  z-index: 4;
+}
+.scan-button:hover {
+  cursor: pointer;
 }
