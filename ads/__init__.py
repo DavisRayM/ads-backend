@@ -41,7 +41,7 @@ def create_app(test_config: Optional[Mapping[str, Any]] = None):
 
     if not test_config:
         app.config.from_object("ads.default_settings.Settings")
-        app.config.from_pyfile("local_settings.py", silent=True)
+        app.config.from_pyfile("../local_settings.py", silent=True)
     else:
         app.config.from_mapping(test_config)
 

@@ -5,22 +5,14 @@ CREATE TABLE IF NOT EXISTS AppUser (
     PRIMARY KEY (id)
 );
 
-CREATE TABLE IF NOT EXISTS Result (
-    id SERIAL,
-    start_time TIMESTAMP NOT NULL,
-    completed_at TIMESTAMP,
-    content TEXT,
-    PRIMARY KEY (id)
-);
-
 CREATE TABLE IF NOT EXISTS Prediction (
     id SERIAL,
     file_path TEXT,
     uploaded_on TIMESTAMP,
     status VARCHAR(60),
-    result_id INT,
     user_id INT,
+    result TEXT,
+    result_confidence INT DEFAULT 0,
     PRIMARY KEY(id),
-    FOREIGN KEY (user_id) REFERENCES AppUser(id),
-    FOREIGN KEY (result_id) REFERENCES Result(id)
+    FOREIGN KEY (user_id) REFERENCES AppUser(id)
 );

@@ -52,7 +52,6 @@ def drop_db():
 
     with conn.cursor() as cur:
         cur.execute("DROP TABLE Prediction")
-        cur.execute("DROP TABLE Result")
         cur.execute("DROP TABLE AppUser")
         conn.commit()
 
@@ -80,17 +79,19 @@ class Prediction:
     file_path: str
     uploaded_on: datetime
     status: str
-    result_id: int
+    result: str
+    result_confidence: int
 
     def dict(self):
         return {
             "id": self.id,
             "uploaded_on": self.uploaded_on.isoformat(),
             "status": self.status,
+            "result": self.result,
         }
 
-    def set_result(self, result_id: int):
-        self.result_id = result_id
+    def set_result(self, result: int):
+        self.result = result_id
         self.status = "complete"
         self._save()
 
@@ -105,8 +106,14 @@ class Prediction:
         conn = get_db()
         with conn.cursor() as cur:
             cur.execute(
-                "UPDATE Prediction SET file_path = ?, status = ?, result_id = ?, user_id = ?",
-                (self.file_path, self.status, self.result_id, self.user_id),
+                "UPDATE Prediction SET file_path = %s, status = %s, result = %s, user_id = %s, result_confidence = %s",
+                (
+                    self.file_path,
+                    self.status,
+                    self.result,
+                    self.user_id,
+                    self.result_confidence,
+                ),
             )
             conn.commit()
 
@@ -128,19 +135,20 @@ class Prediction:
                 obj.file_path = row[1]
                 obj.uploaded_on = row[2]
                 obj.status = row[3]
-                obj.result_id = row[4]
-                obj.user_id = row[5]
+                obj.user_id = row[4]
+                obj.result = row[5]
+                obj.result_confidence = row[6]
                 return obj
             else:
                 return None
 
     @classmethod
-    def create(cls, user, file_path, result_id):
+    def create(cls, user, file_path, result):
         conn = get_db()
         with conn.cursor() as cur:
             cur.execute(
-                "INSERT INTO Prediction(user_id, file_path, uploaded_on, status, result_id) VALUES (%s, %s, %s, %s, %s) RETURNING id",
-                (user.id, file_path, datetime.now().isoformat(), "pending", result_id),
+                "INSERT INTO Prediction(user_id, file_path, uploaded_on, status, result) VALUES (%s, %s, %s, %s, %s) RETURNING id",
+                (user.id, file_path, datetime.now().isoformat(), "pending", result),
             )
             conn.commit()
             result = cur.fetchone()

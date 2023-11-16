@@ -16,6 +16,7 @@ dependencies = [
     "psycopg[binary]",
     "tensorflow[and-cuda]",
     "Flask-Mail",
+    "pandas"
 ]
 
 [project.urls]

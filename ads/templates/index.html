@@ -13,6 +13,27 @@
       .body-container::after {
         background-image: url({{ url_for('static', filename='images/Skeleton.png') }});
       }
+
+      /* Styles for the image */
+      img {
+          object-fit: cover;
+          width: 544px;
+          height: 238px;
+          margin-top: 40px;
+          margin-bottom: 40px;
+      }
+      
+      /* Styles for the button */
+      label {
+          cursor: pointer;
+          display: block;
+          width: 300px;
+          background: #17eae2;
+          color: #000000;
+          padding: 10px;
+          margin: 10px auto;
+          border-radius: 20px;
+      }  
     </style>
 {% endblock %}
 {% block content %}
@@ -47,13 +68,24 @@
 
             <div class="drag-file-container">
                 <!-- Drag and Drop Area -->
-                
-                <div id="drop-area" ondrop="dropHandler(event);" ondragover="dragOverHandler(event);">
-                    <img src="./Assets/CloudIcon.png" alt="">
-                    <p>Drag a file here</p>
-                    <p>Permitted file types: .dicom, .jpeg, .png</p>
-                </div>
-                
+                <div class="card">
+                    <form action="/predict/request" method="post" enctype="multipart/form-data">
+                        <h1>Upload an MRI</h1>
+                        <img id="placeholder"/>
+                        <label for="input-file">Add file</label>
+                        <input
+                          type="file"
+                          style="display: none;"
+                          accept="image/jpeg, image/png, image/jpg"
+                          name=file
+                          onchange="document.getElementById('placeholder').src = window.URL.createObjectURL(this.files[0])"
+                          id="input-file"
+                        />
+                        <input type="submit" value="Upload File">
+                    </form>
+                </div> 
+            </div>
+            <div class="hero">
             </div>
             <!-- Additional Information and Background -->
             <div class="upload-file-more-info">

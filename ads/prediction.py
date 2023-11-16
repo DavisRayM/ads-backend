@@ -55,7 +55,7 @@ def request_prediction():
                 f"{os.path.join(current_app.config.get('UPLOAD_FOLDER'), filename)}"
             )
             file.save(file_path)
-            prediction = Prediction.create(g._user, file_path, None)
+            prediction = Prediction.create(g._user, file_path, "N/A")
             if prediction:
                 process_prediction.delay(prediction.id)
                 return redirect(
