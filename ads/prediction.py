@@ -1,6 +1,5 @@
 import os
 
-from celery.app import shared_task
 from ads.tasks import process_prediction
 
 from flask import Blueprint, current_app, g, redirect, request, url_for
