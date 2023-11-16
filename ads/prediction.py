@@ -57,9 +57,7 @@ def request_prediction():
             file.save(file_path)
             prediction = Prediction.create(g._user, file_path, None)
             if prediction:
-                # TODO: Uncomment for asynchronous
-                # process_prediction.delay(prediction.id)
-                process_prediction(prediction.id)
+                process_prediction.delay(prediction.id)
                 return redirect(
                     url_for("prediction.get_prediction", prediction_id=prediction.id)
                 )
