@@ -23,3 +23,5 @@ class Settings(object):
         "DATABASE_DSN",
         "host=localhost port=5432 dbname=ads_backend user=dev password=dev",
     )
+
+    MODEL_DIRECTORY = "/home/dave/workspace/ads-backend/model"
