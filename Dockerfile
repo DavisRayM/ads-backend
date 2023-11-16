@@ -1,4 +1,4 @@
-FROM python:3.11-slim-bullseye
+FROM python:3.10-slim-bullseye
 ENV FLIT_ROOT_INSTALL=1
 ENV PYTHONPATH=/src/app
 
