@@ -5,12 +5,13 @@ __version__ = "0.0.1"
 
 import os
 from typing import Any, Mapping, Optional
+from uuid import uuid4
 
 from celery.app import Celery
 from celery.app.task import Task
-from flask import Flask, abort, render_template
+from flask import Flask, abort, make_response, render_template, request
 
-from ads.db import get_db
+from ads.db import Prediction, get_db
 
 
 def celery_init(app: Flask) -> Celery:
@@ -72,7 +73,15 @@ def create_app(test_config: Optional[Mapping[str, Any]] = None):
         """
         Home page
         """
-        return render_template("index.html")
+        session = request.cookies.get("userSession")
+        if session is None:
+            predictions = None
+        else:
+            predictions = Prediction.list_for_user(session)
+        resp = make_response(render_template("index.html", predictions=predictions))
+        if session is None:
+            resp.set_cookie("userSession", str(uuid4()))
+        return resp
 
     @app.route("/ourteam")
     def team_page():

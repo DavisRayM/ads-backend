@@ -75,12 +75,16 @@
                         <form id="upload-form" method="POST" action="predict/request" enctype="multipart/form-data">
                             <h1>Upload an MRI</h1> <!-- Heading within the card -->
                             <img src="{{ url_for('static', filename='images/DragFileIMG.png') }}">
-                            <input style="display: none;" type="file" accept="image/jpeg, image/png, image/jpg" id="input-file" name="file">
+                            <input style="display: none;" type="file" accept="image/jpeg, image/png, image/jpg" id="input-file" name="file" {% if in_progress is defined and in_progress %} disabled {% endif %}>
                         </form>
                     </div>
                 </div>
-                <label class="scan-button" for="input-file">Add file</label>
-                <img class="scan-button-two" src="{{ url_for('static', filename='images/Button.png') }}" alt="" onclick="document.getElementById('upload-form').submit()">
+                <label class="scan-button {% if in_progress is defined and in_progress %} disabled {% endif %}" for="input-file">Add file</label>
+                <img class="scan-button-two {% if in_progress is defined and in_progress %} disabled {% endif %}" src="{{ url_for('static', filename='images/Button.png') }}" alt="">
+
+                {% for prediction in predictions %}
+                <p>Prediction started at {{ prediction["uploaded_on"] }}. Status: {{ prediction["status"] }}. Result: {{ prediction["result"] }}</p>
+                {% endfor %}
         </div>
     </div>
     <script src="{{ url_for('static', filename='script.js') }}"></script>

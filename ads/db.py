@@ -106,12 +106,11 @@ class Prediction:
         conn = get_db()
         with conn.cursor() as cur:
             cur.execute(
-                "UPDATE Prediction SET file_path = %s, status = %s, result = %s, user_id = %s, result_confidence = %s",
+                "UPDATE Prediction SET file_path = %s, status = %s, result = %s, result_confidence = %s",
                 (
                     self.file_path,
                     self.status,
                     self.result,
-                    self.user_id,
                     self.result_confidence,
                 ),
             )
@@ -121,6 +120,27 @@ class Prediction:
     def user(self):
         if self.user_id:
             return User.get(id=self.user_id)
+
+    @classmethod
+    def list_for_user(cls, user_session: str):
+        rows = []
+        conn = get_db()
+        with conn.cursor() as cur:
+            cur.execute(
+                "SELECT * FROM Prediction WHERE user_session = %s", (user_session,)
+            )
+
+            for row in cur.fetchall():
+                obj = Prediction()
+                obj.id = row[0]
+                obj.file_path = row[1]
+                obj.uploaded_on = row[2]
+                obj.status = row[3]
+                obj.user_id = row[4]
+                obj.result = row[5]
+                obj.result_confidence = row[6]
+                rows.append(obj.dict())
+        return rows
 
     @classmethod
     def get(cls, id: int):
@@ -143,12 +163,18 @@ class Prediction:
                 return None
 
     @classmethod
-    def create(cls, user, file_path, result):
+    def create(cls, user_session, file_path, result):
         conn = get_db()
         with conn.cursor() as cur:
             cur.execute(
-                "INSERT INTO Prediction(user_id, file_path, uploaded_on, status, result) VALUES (%s, %s, %s, %s, %s) RETURNING id",
-                (user.id, file_path, datetime.now().isoformat(), "pending", result),
+                "INSERT INTO Prediction(user_session, file_path, uploaded_on, status, result) VALUES (%s, %s, %s, %s, %s) RETURNING id",
+                (
+                    user_session,
+                    file_path,
+                    datetime.now().isoformat(),
+                    "pending",
+                    result,
+                ),
             )
             conn.commit()
             result = cur.fetchone()

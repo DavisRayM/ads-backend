@@ -10,9 +10,8 @@ CREATE TABLE IF NOT EXISTS Prediction (
     file_path TEXT,
     uploaded_on TIMESTAMP,
     status VARCHAR(60),
-    user_id INT,
+    user_session TEXT,
     result TEXT,
     result_confidence INT DEFAULT 0,
-    PRIMARY KEY(id),
-    FOREIGN KEY (user_id) REFERENCES AppUser(id)
+    PRIMARY KEY(id)
 );

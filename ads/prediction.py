@@ -2,7 +2,16 @@ import os
 
 from ads.tasks import process_prediction
 
-from flask import Blueprint, current_app, g, redirect, request, url_for
+from flask import (
+    Blueprint,
+    current_app,
+    flash,
+    g,
+    redirect,
+    render_template,
+    request,
+    url_for,
+)
 from werkzeug.utils import secure_filename
 
 from ads.auth import login_required
@@ -38,14 +47,15 @@ def get_prediction(prediction_id: int):
 def request_prediction():
     if request.method == "POST":
         if "file" not in request.files:
-            return {"error": "file required"}, 400
+            flash("image is required")
 
         file = request.files["file"]
+        session = request.cookies.get("userSession")
         print(file.filename)
         if file.filename == "":
-            return {"error": "file required"}, 400
+            flash("image is required")
         elif not allowed_file(file.filename):
-            return {"error": "unsupported file type"}, 400
+            flash("image is required; unsupported file type")
         else:
             filename = secure_filename(file.filename)
 
@@ -53,21 +63,10 @@ def request_prediction():
                 f"{os.path.join(current_app.config.get('UPLOAD_FOLDER'), filename)}"
             )
             file.save(file_path)
-            prediction = Prediction.create(g._user, file_path, "N/A")
+            prediction = Prediction.create(session, file_path, "N/A")
             if prediction:
                 process_prediction.delay(prediction.id)
-                return redirect(
-                    url_for("prediction.get_prediction", prediction_id=prediction.id)
-                )
             else:
-                return {"error": "failed to create prediction request"}, 500
+                flash("error encountered")
 
-    return """
-    <!doctype html>
-    <title>Upload new File</title>
-    <h1>Upload new File</h1>
-    <form method=post enctype=multipart/form-data>
-      <input type=file name=file>
-      <input type=submit value=Upload>
-    </form>
-    """
+    return redirect(url_for("index"))

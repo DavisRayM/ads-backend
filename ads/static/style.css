@@ -253,3 +253,9 @@ body {
 .scan-button:hover {
   cursor: pointer;
 }
+
+.disabled {
+  cursor: not-allowed !important;
+  opacity: 0.65;
+  filter: alpha(opacity=65);
+}
