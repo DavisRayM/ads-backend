@@ -4,22 +4,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ScanAI</title>
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='style.css') }}"
-    />
 
-    <style>
-      .container-two {
-          background-image: url({{ url_for('static', filename='images/Skeleton.png') }})
-      }
-    </style>
+    {% block head_content %} {% endblock %}
   </head>
   <body>
     {% for message in get_flashed_messages() %}
     <div class="flash">{{ message }}</div>
     {% endfor %} {% block content %} {% endblock %}
-
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
   </body>
 </html>

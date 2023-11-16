@@ -1,4 +1,20 @@
 {% extends 'base.html' %}
+{% block head_content %}
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+
+    <style>
+      .body-container::before {
+        background-image: url({{ url_for('static', filename='images/LineDesigns.png') }});
+      }
+      
+      .body-container::after {
+        background-image: url({{ url_for('static', filename='images/Skeleton.png') }});
+      }
+    </style>
+{% endblock %}
 {% block content %}
     <!-- Container One -->
     <div class="container-one">
@@ -8,9 +24,9 @@
             </div>
             <div class="home-page-nav-bar">
                 <ul>
-                    <li><a href="/">Research</a></li>
+                    <li><a href="{{ url_for('index') }}">Research</a></li>
                     <li><a href="#">FAQs</a></li>
-                    <li><a href="/ourteam">Our Team</a></li>
+                    <li><a href="{{ url_for('team_page') }}">Our Team</a></li>
                 </ul>
             </div>
 
@@ -49,4 +65,5 @@
             <button id="scan-button" class="home-page-scan-button">SCAN</button>   
         </div>
     </div>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
 {% endblock %}

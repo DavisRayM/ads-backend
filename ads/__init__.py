@@ -74,6 +74,13 @@ def create_app(test_config: Optional[Mapping[str, Any]] = None):
         """
         return render_template("index.html")
 
+    @app.route("/ourteam")
+    def team_page():
+        """
+        Our team page
+        """
+        return render_template("ourteam.html")
+
     from . import db
 
     db.init_app(app)

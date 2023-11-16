@@ -1,3 +1,4 @@
+/* Import Google Fonts */
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap");
 
 /* Reset CSS */
@@ -10,75 +11,9 @@ body {
   font-family: "Poppins", sans-serif;
   color: #e4eaec;
 }
-
-/* Container One */
-.container-one {
-  height: 20vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  text-align: center;
-}
-
-.nav-upload-xray-text {
-  font-size: 25px;
-  padding-right: 25vw;
-}
-
-/* Container Two */
-.container-two {
-  display: flex;
-  align-items: center;
-  height: 70vh;
-  background: linear-gradient(to right, #001c2d, #336b82);
-  background-size: contain;
-  background-repeat: no-repeat;
-}
-
-.container-three {
-  height: 10vh;
-}
-
-/* Container Four */
-.container-four {
-  width: 50vw;
-  height: 100%;
-}
-
-/* Container Five */
-.container-five {
-  width: 50vw;
-  height: 100%;
-}
-
-.container-five-background {
-  background: linear-gradient(to right, #051d30, #152e49);
-  width: 80%;
-  height: 50%;
-}
-.upload-file-more-info {
-  display: flex;
-}
-.upload-file-more-info p {
-  width: 70%;
-}
-.upload-file-more-info button {
-  background: #16ebe2;
-  height: 50px;
-  width: 10%;
-  font-weight: bold;
-  border: none;
-  border-radius: 10px;
-}
-
-.container-six {
-  height: 50%;
-  width: 50vw;
-}
-
 /* Navigation */
 .navigation-container {
-  background: linear-gradient(to right, #05192b, #2f6378);
+  background: linear-gradient(to right, #07182a, #2f6378);
   height: 33%;
   display: flex;
   align-items: center;
@@ -98,7 +33,7 @@ body {
   list-style: none;
   float: left;
   padding-left: 2vw;
-  font-size: 25px;
+  font-size: 2.5vh;
 }
 
 .navigation-container ul li a {
@@ -117,12 +52,80 @@ body {
   width: 15vw;
 }
 
+/* Container One */
+.container-one {
+  height: 18vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+
+.nav-upload-xray-text {
+  font-size: 2.5vh;
+  padding-right: 25vw;
+}
+.body-container {
+  position: relative;
+  height: 82vh;
+  width: 100vw;
+  display: flex;
+  background: linear-gradient(to right, #021b2f, #356f86);
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.body-container::before,
+.body-container::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.body-container::before {
+  left: 0;
+  z-index: 2;
+}
+
+.body-container::after {
+  bottom: 0;
+  z-index: 1;
+}
+
+/* Container Two */
+.container-two {
+  height: 91%;
+  width: 45%;
+}
+
+.home-content-container {
+  width: 55%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.drag-file-container {
+  padding-top: 5%;
+  width: 98.5%;
+  font-size: 1.75vh;
+  z-index: 3;
+}
+.drag-file-container img {
+  width: 13.6%;
+}
+
 /* Drag and Drop Area */
 #drop-area {
   background: linear-gradient(to right, #051d30, #152e49);
-  width: 80%;
-  height: 50%;
+  width: 95%;
+  height: 25vh;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   cursor: pointer;
@@ -130,4 +133,59 @@ body {
 
 #file-list {
   margin-top: 20px;
+}
+
+/* Additional Styling */
+.upload-file-more-info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 70%;
+  height: 15vh;
+  font-size: 1.5vh;
+}
+.upload-file-more-info p {
+  width: 70%;
+  padding-right: 2.5vw;
+}
+.upload-file-more-info button {
+  background: #16ebe2;
+  height: 5vh;
+  width: 5vw;
+  font-weight: bold;
+  border: none;
+  border-radius: 10px;
+  font-size: 1.25vh;
+}
+.home-page-scan-button {
+  width: 15vw;
+  height: 5vh;
+  border: none;
+  font-weight: bold;
+  border-radius: 5px;
+  background: #16ebe2;
+}
+
+.nav-container-two {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#more-info-button {
+  z-index: 3;
+}
+#more-info-button:hover {
+  cursor: pointer;
+}
+#scan-button {
+  z-index: 3;
+}
+#scan-button:hover {
+  cursor: pointer;
+}
+.rectangle-image {
+  background: linear-gradient(to right, #011929, #152d47);
+  width: 100%;
+  height: 15vh;
 }
