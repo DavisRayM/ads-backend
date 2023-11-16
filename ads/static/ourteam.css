@@ -1,0 +1,106 @@
+/* Import Google Fonts */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap");
+
+/* Reset CSS */
+* {
+  margin: 0;
+}
+
+body {
+  background: linear-gradient(to right, #07263a, #398d9f);
+  font-family: "Poppins", sans-serif;
+  color: #e4eaec;
+}
+/*Container One*/
+.container-one {
+  background: linear-gradient(to right, #02263b, #3c8e9f);
+  height: 18vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+/* Navigation */
+.navigation-container {
+  background: linear-gradient(to right, #07182a, #2f6378);
+  height: 33%;
+  display: flex;
+  align-items: center;
+  color: #a9bbc3;
+}
+
+.home-page-nav-bar {
+  width: 80vw;
+}
+
+.navigation-container ul {
+  display: flex;
+  align-items: center;
+}
+
+.navigation-container ul li {
+  list-style: none;
+  float: left;
+  padding-left: 2vw;
+  font-size: 2.5vh;
+}
+
+.navigation-container ul li a {
+  text-decoration: none;
+  color: #a9bbc3;
+}
+
+.home-page-logo {
+  width: 10vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.home-page-contact {
+  width: 15vw;
+}
+
+/*Body Container*/
+.body-container {
+  background: #2d667b;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+/*Our Team Container One*/
+.our-team-container-one {
+  padding-top: 3vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.our-team-logo {
+  width: 3vw;
+  height: 3vw;
+}
+.our-team-scanai {
+  font-size: 2.5vw;
+}
+/*Text Content*/
+.text-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.text-container {
+  display: flex;
+  flex-direction: column;
+  font-size: 1.25vh;
+  width: 35vw;
+  padding-top: 3vh;
+}
+.text-container h1 {
+  font-size: 2vh;
+}
+.text-container p {
+  font-size: 1.5vh;
+}
+.text-container ul {
+  font-size: 1.5vh;
+}
