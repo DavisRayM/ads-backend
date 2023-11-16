@@ -75,7 +75,7 @@ def create_app(test_config: Optional[Mapping[str, Any]] = None):
         """
         session = request.cookies.get("userSession")
         if session is None:
-            predictions = None
+            predictions = []
         else:
             predictions = Prediction.list_for_user(session)
         resp = make_response(render_template("index.html", predictions=predictions))
